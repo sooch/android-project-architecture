@@ -1,0 +1,16 @@
+<resources>
+    <string name="app_name">Framework</string>
+
+    <string name="navigation_drawer_open">Open navigation drawer</string>
+    <string name="navigation_drawer_close">Close navigation drawer</string>
+
+    <string name="action_settings">Settings</string>
+
+    <!-- title -->
+    <string name="title_camera">Camera</string>
+    <string name="title_gallery">Gallery</string>
+
+    <!-- error messages -->
+    <string name="exception_message_generic">exception_message_generic</string>
+    <string name="exception_message_something">exception_message_something</string>
+</resources>

@@ -1,0 +1,126 @@
+apply plugin: 'com.android.application'
+apply plugin: 'android-apt'
+//apply plugin: 'com.neenbedankt.android-apt'
+apply plugin: 'me.tatarka.retrolambda'
+
+
+def PACKAGE_NAME = "com.sooch.framework"
+
+def VERSION_MAJOR = 0
+def VERSION_MINOR = 1
+def VERSION_PATCH = 0
+
+android {
+    compileSdkVersion 24
+    buildToolsVersion "23.0.3"
+
+    defaultConfig {
+        applicationId PACKAGE_NAME
+        minSdkVersion 15
+        targetSdkVersion 24
+        versionCode VERSION_MAJOR * 100 + VERSION_MINOR * 10 + VERSION_PATCH
+        versionName "${VERSION_MAJOR}.${VERSION_MINOR}.${VERSION_PATCH}"
+        testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
+    }
+
+    signingConfigs {
+        debug {
+            storeFile rootProject.file("debug.keystore")
+            storePassword 'android'
+            keyAlias 'androiddebugkey'
+            keyPassword 'android'
+        }
+        release {
+        }
+    }
+
+    productFlavors {
+        develop {
+            applicationId "${PACKAGE_NAME}.develop"
+        }
+
+        staging {
+            applicationId "${PACKAGE_NAME}.staging"
+        }
+
+        production {
+        }
+    }
+
+
+    buildTypes {
+        release {
+            debuggable false
+            zipAlignEnabled true
+
+            // Proguard Settings
+            minifyEnabled false
+            proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
+        }
+    }
+
+    dataBinding {
+        enabled true
+    }
+
+    compileOptions {
+        sourceCompatibility JavaVersion.VERSION_1_8
+        targetCompatibility JavaVersion.VERSION_1_8
+    }
+
+    android {
+        compileOptions.incremental = false
+    }
+}
+
+dependencies {
+    compile fileTree(dir: 'libs', include: ['*.jar'])
+    testCompile 'junit:junit:4.12'
+
+    // Testing Library
+    // https://developer.android.com/topic/libraries/testing-support-library/index.html
+    androidTestCompile ('com.android.support.test:runner:0.4') {
+        exclude module: 'support-annotations'
+    }
+    androidTestCompile ('com.android.support.test:rules:0.4') {
+        exclude module: 'support-annotations'
+    }
+//    androidTestCompile 'com.android.support.test.espresso:espresso-core:2.2.1'
+//    androidTestCompile 'com.android.support.test.uiautomator:uiautomator-v18:2.1.2'
+
+
+    // Android Support Library
+    // https://developer.android.com/topic/libraries/support-library/revisions.html
+    compile "com.android.support:appcompat-v7:${support_lib_version}"
+    compile "com.android.support:design:${support_lib_version}"
+
+    // Retrofit2, Json Converter, Adapter
+    // https://github.com/square/retrofit
+    compile "com.squareup.retrofit2:retrofit:${retrofit_lib_version}"
+    compile "com.squareup.retrofit2:converter-gson:${retrofit_lib_version}"
+    compile ("com.squareup.retrofit2:converter-simplexml:${retrofit_lib_version}") {
+        exclude module: 'stax'
+        exclude module: 'stax-api'
+        exclude module: 'xpp3'
+    }
+    compile "com.squareup.retrofit2:adapter-rxjava:${retrofit_lib_version}"
+
+    // OkHttp3
+    // https://github.com/square/okhttp
+    compile "com.squareup.okhttp3:okhttp:${okhttp_lib_version}"
+    compile "com.squareup.okhttp3:logging-interceptor:${okhttp_lib_version}"
+
+    // Dagger2
+    // https://github.com/google/dagger
+    compile "com.google.dagger:dagger:${dagger2_lib_version}"
+    apt "com.google.dagger:dagger-compiler:${dagger2_lib_version}"
+
+    // RxJava
+    // https://github.com/ReactiveX/RxJava
+    compile 'io.reactivex:rxjava:1.1.8'
+
+    // RxAndroid
+    // https://github.com/ReactiveX/RxAndroid
+    compile 'io.reactivex:rxandroid:1.2.1'
+
+}
